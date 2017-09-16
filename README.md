@@ -2,6 +2,8 @@
 
 This is a cross-platform replay uploader for [HotsApi.net](http://hotsapi.net/) ([github](https://github.com/poma/hotsapi))
 
+Download the latest release for your platform from [here](https://github.com/idooo/hotsapi-electron-uploader/releases)
+
 ## If this thing doesn't work
 
 This application has been written in one day so there will be bugs.

@@ -5,6 +5,7 @@ const STORAGE_VERSION = 1;
 const STORAGE_FILE = 'upload-data.json';
 
 class Storage {
+
 	static async getLocalDatabase() {
 		const isStorageExist = await storage.isPathExists(STORAGE_FILE, undefined);
 		if (!isStorageExist) {

@@ -16,12 +16,20 @@ angular.module('hotsapiReplayUploader', []).controller('app', pageController);
 
 function pageController($scope, $interval) {
 
+	// Here we will keep our DTOs for replays
 	this.replays = [];
+
+	// List of replays that need to be saved to local database
 	this.updatedReplays = {};
+
+	// Stats about uploaded/total replays
 	this.stats = {};
 
-	// Recursive function to upload replays one by one
-	// Probably we can group them and upload N in parallel but let's not stress test API
+	/**
+	 * Recursive function to upload replays one by one
+	 * Probably we can group them and upload N in parallel but let's not stress test API
+	 * @param {Number} [replayNumber=0] start position in this.replays array
+	 */
 	this.uploadReplay = (replayNumber = 0) => {
 		// Check if we done all the replays we have and exit
 		if (replayNumber >= this.replays.length) {
@@ -51,6 +59,9 @@ function pageController($scope, $interval) {
 		});
 	};
 
+	/**
+	 * Update replay statistics
+	 */
 	this.updateStats = () => {
 		this.stats = {
 			inQueue: 0,
@@ -64,10 +75,15 @@ function pageController($scope, $interval) {
 		})
 	};
 
+	/**
+	 * Open URL in external browser
+	 * @param {String} href
+	 */
 	this.openHelp = (href) => {
 		shell.openExternal(href);
 	};
 
+	// Get replays data from local database, and create DTOs to show it in UI
 	discovery.getReplays().then(replays => {
 		Object.keys(replays).forEach(replayKey => {
 			replays[replayKey].fromNow = moment(
@@ -83,7 +99,10 @@ function pageController($scope, $interval) {
 		this.uploadReplay();
 	});
 
+	// We will syncronise data from application to a local storage in intervals
 	$interval(() => {
+
+		// Nothing to save
 		if (!Object.keys(this.updatedReplays).length) {
 			return;
 		}
@@ -93,7 +112,6 @@ function pageController($scope, $interval) {
 				.length} replays to save to local storage`
 		);
 
-		logger.info(this.updatedReplays);
 		Storage.getLocalDatabase().then(localDatabase => {
 			const updatedReplaykeys = Object.keys(this.updatedReplays);
 			updatedReplaykeys.forEach(replayKey => {

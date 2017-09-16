@@ -9,7 +9,9 @@ const UPLOAD_ENDPOINT = '/replays';
 const USER_AGENT = `HotsAPI Electron Uploader / version ${packageInfo.version} (https://github.com/idooo/hotsapi-electron-uploader)`;
 
 class API {
+
 	/**
+	 * Uploads replay to hotsapi.net and returns promise with replay object with new status
 	 *
 	 * @param {Object} replay
 	 * @returns {Promise<Object>}
@@ -28,6 +30,8 @@ class API {
 		return new Promise(resolve => {
 			logger.info(`Uploading: ${replay.fullPath}`);
 			request.post(options, (err, resp, body) => {
+
+				// if we encountered some weird connection error
 				if (err) {
 					logger.error(`Failed to upload: ${replay.fullPath}`, err);
 					return resolve(
@@ -36,9 +40,10 @@ class API {
 						})
 					);
 				}
+
 				try {
 					const parsedBody = JSON.parse(body);
-					logger.info(`Uploaded: ${replay.fullPath} - body`);
+					logger.info(`Uploaded: ${replay.fullPath} - body: ${body}`);
 					return resolve(
 						Object.assign({}, replay, {
 							status:
@@ -47,6 +52,7 @@ class API {
 						})
 					);
 				} catch (err) {
+					// If for some reason we failed to parse response from API
 					logger.error(`Failed to parse response: ${replay.fullPath}`, err);
 					return resolve(
 						Object.assign({}, replay, {
