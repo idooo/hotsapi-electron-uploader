@@ -1,9 +1,11 @@
 {
   "name": "hotsapi-electron-uploader",
+  "productName": "HotsApi Electron Replay Uploader",
   "version": "1.0.0",
   "main": "main.js",
   "scripts": {
-    "start": "electron ."
+    "start": "electron .",
+    "osx": "electron-packager . --icon ./assets/icon.icns --platform darwin --arch x64"
   },
   "repository": "git@github.com:idooo/hotsapi-electron-uploader.git",
   "author": "idooo <alex.shteinikov@gmail.com>",
@@ -17,6 +19,7 @@
     "winston": "^2.3.1"
   },
   "devDependencies": {
+    "electron-packager": "^9.1.0",
     "prettier": "^1.7.0"
   }
 }

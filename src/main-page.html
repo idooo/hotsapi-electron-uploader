@@ -3,25 +3,34 @@
 <head>
     <meta charset="UTF-8">
     <title>Replay Uploader for HotsApi.net</title>
+
+	<link rel="stylesheet" href="styles/main.css">
 </head>
 
 <body ng-app="hotsapiReplayUploader" ng-controller="app as $ctrl">
-    <table id="replays-table">
+    <table class="replay-table">
         <thead>
             <tr>
-                <th>File name</th>
-				<th>Created</th>
-                <th>Status</th>
+                <th class="replay-table__head-filename">File name</th>
+				<th class="replay-table__head-created">Created</th>
+                <th class="replay-table__head-status">Status</th>
             </tr>
         </thead>
         <tbody>
-            <tr ng-repeat="replay in $ctrl.replays track by replay.cacheName">
+            <tr ng-repeat="replay in $ctrl.replays track by replay.cacheName"
+				class="replay-table__row replay-table__row--{{replay.status}}">
                 <td>{{replay.fileName}}</td>
 				<td>{{replay.fromNow}}</td>
 				<td>{{replay.status}}</td>
             </tr>
         </tbody>
     </table>
+
+	<div class="footer">
+		In Queue: {{$ctrl.stats.inQueue}}, Uploaded: {{$ctrl.stats.uploaded}}, Total: {{$ctrl.stats.total}}
+
+		(<a ng-click="$ctrl.openHelp('https://github.com/idooo/hotsapi-electron-uploader')" href="#">Help</a>)
+	</div>
 </body>
 
 <script>

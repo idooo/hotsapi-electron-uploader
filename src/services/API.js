@@ -6,7 +6,7 @@ const packageInfo = require('../../package.json');
 
 const PREFIX = 'http://hotsapi.net/api/v1';
 const UPLOAD_ENDPOINT = '/replays';
-const USER_AGENT = `HotsAPI Electron Uploader (version ${packageInfo.version})`;
+const USER_AGENT = `HotsAPI Electron Uploader / version ${packageInfo.version} (https://github.com/idooo/hotsapi-electron-uploader)`;
 
 class API {
 	/**

@@ -1,5 +1,6 @@
 const angular = require('angular');
 const moment = require('moment');
+const shell =  require('electron').shell;
 const logger = require('./services/logging')('info');
 const Constants = require('./constants');
 const Discovery = require('./services/discovery');
@@ -14,8 +15,10 @@ logger.info('Application has been started');
 angular.module('hotsapiReplayUploader', []).controller('app', pageController);
 
 function pageController($scope, $interval) {
+
 	this.replays = [];
 	this.updatedReplays = {};
+	this.stats = {};
 
 	// Recursive function to upload replays one by one
 	// Probably we can group them and upload N in parallel but let's not stress test API
@@ -38,12 +41,31 @@ function pageController($scope, $interval) {
 			this.replays[replayNumber].status = result.status;
 			this.updatedReplays[result.cacheName] = result;
 
+			this.updateStats();
+
 			// Upload next replay
 			this.uploadReplay(replayNumber + 1);
 
 			// Update Angular view
 			$scope.$digest();
 		});
+	};
+
+	this.updateStats = () => {
+		this.stats = {
+			inQueue: 0,
+			uploaded: 0,
+			total: 0
+		};
+		this.replays.forEach(replay => {
+			this.stats.total++;
+			if (replay.status === Constants.REPLAY_STATUS.NEW) this.stats.inQueue++;
+			else if (replay.status === Constants.REPLAY_STATUS.SUCCESS) this.stats.uploaded++;
+		})
+	};
+
+	this.openHelp = (href) => {
+		shell.openExternal(href);
 	};
 
 	discovery.getReplays().then(replays => {
@@ -54,6 +76,8 @@ function pageController($scope, $interval) {
 			this.replays.push(replays[replayKey]);
 		});
 		this.replays = this.replays.sort((a, b) => b.creationTime - a.creationTime);
+
+		this.updateStats();
 
 		$scope.$digest();
 		this.uploadReplay();

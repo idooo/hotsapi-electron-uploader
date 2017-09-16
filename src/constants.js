@@ -1,17 +1,17 @@
 const REPLAY_STATUS = {
-	NEW: 'New',
+	NEW: 'InQueue',
 	UPLOAD_ERROR: 'UploadError',
 	UNKNOWN: 'UnknownCode',
 	UPLOADING: 'Uploading',
 
 	// API status mappings
-	SUCCESS: 'Success',
-	DUPLICATE: 'Duplicate',
-	AI: 'AiDetected',
-	CUSTOM: 'CustomGame',
-	PTR: 'PtrRegion',
-	OLD: 'TooOld',
-	INCOMPLETE: 'Incomplete'
+	Success: 'Success',
+	Duplicate: 'Duplicate',
+	AiDetected: 'AiDetected',
+	CustomGame: 'CustomGame',
+	PtrRegion: 'PtrRegion',
+	TooOld: 'TooOld',
+	Incomplete: 'Incomplete'
 };
 
 module.exports = {
