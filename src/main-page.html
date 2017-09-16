@@ -1,0 +1,30 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="UTF-8">
+    <title>Replay Uploader for HotsApi.net</title>
+</head>
+
+<body ng-app="hotsapiReplayUploader" ng-controller="app as $ctrl">
+    <table id="replays-table">
+        <thead>
+            <tr>
+                <th>File name</th>
+				<th>Created</th>
+                <th>Status</th>
+            </tr>
+        </thead>
+        <tbody>
+            <tr ng-repeat="replay in $ctrl.replays track by replay.cacheName">
+                <td>{{replay.fileName}}</td>
+				<td>{{replay.fromNow}}</td>
+				<td>{{replay.status}}</td>
+            </tr>
+        </tbody>
+    </table>
+</body>
+
+<script>
+    require('./main-page.js')
+</script>
+</html>
