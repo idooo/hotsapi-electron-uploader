@@ -13,7 +13,6 @@ const REGEX_REPLAY_EXTENSION = /.*\.StormReplay$/;
  * Discovers local replays
  */
 class Discovery {
-
 	async getReplays() {
 		const database = await Storage.getLocalDatabase();
 		const localReplays = this.getLocalReplays();
@@ -34,18 +33,21 @@ class Discovery {
 		let accountsFolder = '';
 		if (os.platform() === 'darwin') {
 			accountsFolder = OSX_ACCOUNTS_FOLDER;
-		}
-		else if (os.platform() === 'win32') {
+		} else if (os.platform() === 'win32') {
 			accountsFolder = WIN_ACCOUNTS_FOLDER;
-		}
-		else {
+		} else {
 			logger.error(`Unsupported platform ${os.platform()}`);
 			alert('This platform is unsupported');
 		}
 
-		return this.getFilesRecursively(accountsFolder).filter(replay =>
-			REGEX_REPLAY_EXTENSION.test(replay.fileName)
-		);
+		try {
+			return this.getFilesRecursively(accountsFolder).filter(replay =>
+				REGEX_REPLAY_EXTENSION.test(replay.fileName)
+			);
+		} catch (err) {
+			alert('Can\'t find directory with replays. Sorry at the moment we support only standard folders');
+			return [];
+		}
 	}
 
 	getFilesRecursively(directory) {

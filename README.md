@@ -36,7 +36,10 @@ npm install -g electron-packager
 Use it as they say in [readme](https://github.com/electron-userland/electron-packager) like: 
 
 ```
+# mac
 electron-packager . --icon ./assets/icon.icns --platform darwin --arch x64
+# or for windows
+electron-packager . --icon ./assets/icon.png --platform win32 --arch x64
 ``` 
 
 # License

@@ -1,6 +1,6 @@
 const angular = require('angular');
 const moment = require('moment');
-const shell =  require('electron').shell;
+const shell = require('electron').shell;
 const logger = require('./services/logging')('info');
 const Constants = require('./constants');
 const Discovery = require('./services/discovery');
@@ -15,7 +15,6 @@ logger.info('Application has been started');
 angular.module('hotsapiReplayUploader', []).controller('app', pageController);
 
 function pageController($scope, $interval) {
-
 	// Here we will keep our DTOs for replays
 	this.replays = [];
 
@@ -70,16 +69,20 @@ function pageController($scope, $interval) {
 		};
 		this.replays.forEach(replay => {
 			this.stats.total++;
-			if (replay.status === Constants.REPLAY_STATUS.NEW) this.stats.inQueue++;
-			else if (replay.status === Constants.REPLAY_STATUS.SUCCESS) this.stats.uploaded++;
-		})
+			if (replay.status === Constants.REPLAY_STATUS.NEW) {
+				this.stats.inQueue++;
+			}
+			else if (replay.status === Constants.REPLAY_STATUS.Success) {
+				this.stats.uploaded++;
+			}
+		});
 	};
 
 	/**
 	 * Open URL in external browser
 	 * @param {String} href
 	 */
-	this.openHelp = (href) => {
+	this.openHelp = href => {
 		shell.openExternal(href);
 	};
 
@@ -101,7 +104,6 @@ function pageController($scope, $interval) {
 
 	// We will syncronise data from application to a local storage in intervals
 	$interval(() => {
-
 		// Nothing to save
 		if (!Object.keys(this.updatedReplays).length) {
 			return;
