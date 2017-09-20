@@ -59,3 +59,4 @@ typings/
 
 .idea
 HotsApi Electron Replay Uploader-darwin-x64
+.DS_Store
